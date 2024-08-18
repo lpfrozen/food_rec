@@ -4,7 +4,7 @@ import warnings
 
 import gensim
 import keras
-import nltk
+# import nltk
 import numpy as np
 import pandas as pd
 import tensorflow as tf
@@ -12,10 +12,10 @@ from keras import layers
 from keras.callbacks import ModelCheckpoint, EarlyStopping
 from keras.models import Sequential
 from keras.preprocessing.text import Tokenizer
-from nltk import pos_tag
-from nltk.corpus import stopwords
+# from nltk import pos_tag
+# from nltk.corpus import stopwords
 # from nltk.corpus import wordnet
-from nltk.stem import WordNetLemmatizer
+# from nltk.stem import WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from nltk.tokenize.treebank import TreebankWordDetokenizer
 from sklearn.model_selection import train_test_split
@@ -26,7 +26,7 @@ warnings.filterwarnings('ignore')
 # nltk.download('punkt')
 # nltk.download('stopwords')
 # nltk.download('wordnet')
-wordnet_lemmatizer = WordNetLemmatizer()
+# wordnet_lemmatizer = WordNetLemmatizer()
 
 # POS tagger dictionary
 # pos_dict = {'J': wordnet.ADJ, 'V': wordnet.VERB, 'N': wordnet.NOUN, 'R': wordnet.ADV}
@@ -37,7 +37,7 @@ pd.set_option('display.max_columns', None)
 
 def clean_text(text):
     text = re.sub('[^A-Za-z]+', ' ', text)
-    text = ' '.join([word for word in text.strip().split() if word not in stopwords.words('english')])
+    # text = ' '.join([word for word in text.strip().split() if word not in stopwords.words('english')])
 
     print(text, end="\t")
 
@@ -53,28 +53,29 @@ def clean_text(text):
 #     return newlist
 
 
-def lemmatize(pos_data):
-    print(pos_data)
-    print(type(pos_data)) # <class 'str'>
-    lemma_rew = " "
-    for word, pos in pos_data:
-        if not pos:
-            lemma = word
-            lemma_rew = lemma_rew + " " + lemma
-        else:
-            lemma = wordnet_lemmatizer.lemmatize(word, pos=pos)
-            lemma_rew = lemma_rew + " " + lemma
-    return lemma_rew
+# def lemmatize(pos_data):
+#     print(pos_data)
+#     print(type(pos_data)) # <class 'str'>
+#     lemma_rew = " "
+#     for word, pos in pos_data:
+#         if not pos:
+#             lemma = word
+#             lemma_rew = lemma_rew + " " + lemma
+#         else:
+#             lemma = wordnet_lemmatizer.lemmatize(word, pos=pos)
+#             lemma_rew = lemma_rew + " " + lemma
+#     return lemma_rew
 
-def token_stop_pos(text):
-    # Tokenize the text into individual words
-    words = nltk.word_tokenize(text)
+# def token_stop_pos(text):
+#     # Tokenize the text into individual words
+#     words = nltk.word_tokenize(text)
+#
+#     # Apply POS tagging to the words
+#     tagged_words = nltk.pos_tag(words)
+#
+#     # Join the tagged words back into a single string
+#     return ' '.join([f'{word}/{tag}' for word, tag in tagged_words])
 
-    # Apply POS tagging to the words
-    tagged_words = nltk.pos_tag(words)
-
-    # Join the tagged words back into a single string
-    return ' '.join([f'{word}/{tag}' for word, tag in tagged_words])
 
 def process_data_sentiment(df):
     # load csv
@@ -94,7 +95,7 @@ def process_data_sentiment(df):
         print(batch.tail())
         # print columns
         print(batch.columns)
-        batch['POS tagged'] = batch['cleaned_text'].apply(token_stop_pos)
+        # batch['POS tagged'] = batch['cleaned_text'].apply(token_stop_pos)
         print(batch.columns)
         print(batch.tail())
         print("POS tagging text...")
@@ -154,7 +155,6 @@ def train_sentiment():
     df = df.dropna()
     # remove duplicates
     df = df.drop_duplicates()
-
 
     # keep only column_name, value
     df = df[['column_name', 'value']]
@@ -305,6 +305,7 @@ def pre_process(df):
     df["selected_text"].fillna("No content", inplace=True)
 
     return df
+
 
 text = "little bit bad food. But serive is really good and fast. I like it"
 print(predict_sentiment(text))
