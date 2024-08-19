@@ -1,7 +1,8 @@
 import os
 from datetime import datetime, timedelta
-from typing import List
+from typing import List, Union
 
+import certifi
 import motor.motor_asyncio
 import pandas as pd
 from bson import ObjectId
@@ -33,13 +34,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client = motor.motor_asyncio.AsyncIOMotorClient(os.environ["MONGODB_URL"])
+client = motor.motor_asyncio.AsyncIOMotorClient(os.environ["MONGODB_URL"], tlsCAFile=certifi.where())
 db = client.food_restaturent
 
 data_length = 100000
 
+
 from recommand import get_rec
-from sentiment import predict_sentiment
+from sentiment import predict_sentiment, train_sentiment
 
 
 class PyObjectId(ObjectId):
@@ -174,7 +176,7 @@ async def list_food_categories():
 class foodsModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
     name: str = Field(...)
-    price: int = Field(...)
+    price: Union[int, str, float] = Field(...)
     description: str = Field(...)
     image: str = Field(...)
     category: PyObjectId = Field(default_factory=PyObjectId)
@@ -256,7 +258,7 @@ async def list_order_items_with_quantities():
 
 class OrderModel(BaseModel):
     id: PyObjectId = Field(default_factory=PyObjectId, alias="_id")
-    createDate: str = Field(...)
+    createDate: Union[str, datetime] = Field(...)
     createTime: str = Field(...)
     status: str = Field(...)
     orderedBy: PyObjectId = Field(default_factory=PyObjectId)
@@ -312,7 +314,7 @@ class UserModel(BaseModel):
     lastName: str
     userName: str
     email: str
-    dateOfBirth: str
+    dateOfBirth: Union[str, datetime]
     mobileNumber: str
     password: str
 

@@ -45,9 +45,6 @@ def get_rec(my_profile, num_of_rec):
         random_state=42
     )
 
-    # Indexing by user_id to speed up the searches during evaluation
-    full_indexed_df = interactions_full_df.set_index('user_id')
-
     # Computes the most popular items
     def most_popular_items(interactions_df, item_id, topn=10):
         # Get a count of user_ids for each unique food as
@@ -384,7 +381,7 @@ def get_rec(my_profile, num_of_rec):
         return item_popularity_df_head, 0
 
 
-# print(get_rec("64315d86362c27c707fe155c", 5))
+# print(get_rec("643f7600b112e4c7d16de85c", 5))
 
 # motor==3.1.2
 # pymongo==4.3.3
