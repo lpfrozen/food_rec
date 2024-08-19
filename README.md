@@ -27,3 +27,7 @@ You can test with,
 Repleace sentiment prediction part
 Model
 Requarement
+
+pip install motor==3.1.2 pandas==2.0.0 fastapi==0.95.1 pydantic==1.10.7 python-dotenv==1.0.0 numpy scipy==1.10.1 scikit-learn nltk gensim keras tensorflow-cpu==2.8.0 textblob==0.17.1
+
+pip install uvicorn mangum protobuf==3.19

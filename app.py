@@ -8,11 +8,13 @@ from bson import ObjectId
 from fastapi import FastAPI, Request, Body
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
+from mangum import Mangum
 
 # show all columns
 pd.set_option('display.max_columns', None)
 
 app = FastAPI()
+handler = Mangum(app)
 
 print("Starting server...")
 
